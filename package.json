@@ -1,0 +1,33 @@
+{
+  "name": "file-parser",
+  "author": "Amplement",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon --exec babel-node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amplement/file-parser.git"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "fast-csv": "^2.4.1",
+    "multer": "^1.3.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-import-resolver-babel-module": "^4.0.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.13.0"
+  }
+}

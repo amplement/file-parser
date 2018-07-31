@@ -1,11 +1,6 @@
-import fs from 'fs';
 import express from 'express';
-import multer from 'multer';
-import csv from 'fast-csv';
 import raven from 'raven';
-
-const EMAIL_REGEX = /([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
-const noop = () => {};
+import routes from './upload';
 
 const app = express();
 
@@ -17,48 +12,7 @@ raven
 
 app.use(raven.requestHandler());
 
-const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-
-        callback(null, '.');
-
-    },
-    filename: (req, file, callback) => {
-
-        callback(null, `${file.originalname}-${Date.now()}`);
-
-    }
-});
-
-const parseEmails = payload => (
-    payload && typeof (payload) === 'string'
-    && payload.match(EMAIL_REGEX));
-
-const upload = multer({ storage });
-
-const deleteFile = (path, callback) => {
-
-    fs.unlink(path, callback);
-
-};
-
-app.post('/upload', upload.single('file'), (req, res) => {
-
-    const fileRows = [];
-
-    csv.fromPath(req.file.path)
-    .validate(fields => parseEmails(fields[0]))
-    .on('data', fields => fileRows.push(fields[0]))
-    .on('end', () => {
-
-        deleteFile(req.file.path, noop);
-        res.send({
-            data: fileRows
-        });
-
-    });
-
-});
+app.use('/', routes);
 
 raven.setContext({
     tags: {
@@ -67,19 +21,20 @@ raven.setContext({
 });
 app.use(raven.errorHandler());
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
 
-    console.error(err.stack);
-    res.status(500).send('Internal server error');
-
-    raven.setContext({
-        tags: {
-            errorType: 'caught'
-        }
-    });
-
-    throw err;
+    res.status(500);
+    res.end();
+    next();
 
 });
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT, () => {
+
+    if (process.env.NODE_ENV === 'development') {
+
+        console.log('listening to', process.env.PORT);
+
+    }
+
+});

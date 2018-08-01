@@ -12,6 +12,7 @@
     "url": "git+https://github.com/amplement/file-parser.git"
   },
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "fast-csv": "^2.4.1",
     "multer": "^1.3.1",

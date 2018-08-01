@@ -1,5 +1,6 @@
 import express from 'express';
 import raven from 'raven';
+import cors from 'cors';
 import routes from './upload';
 
 const app = express();
@@ -10,6 +11,7 @@ raven
 .config(sentryUrl, { captureUnhandledRejections: true })
 .install();
 
+app.use(cors());
 app.use(raven.requestHandler());
 
 app.use('/', routes);

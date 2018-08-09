@@ -13,6 +13,8 @@ const storage = multer.diskStorage({
         const __root = path.join(__dirname, '../');
         const tmpPath = path.join(__root, './tmp/');
 
+        console.log('paths', __root, tmpPath);
+
         callback(null, tmpPath);
 
     },
@@ -35,6 +37,8 @@ const routes = express.Router();
 
 routes.post('/upload', upload.single('file'), (req, res, next) => {
 
+    console.log('final mw reached');
+
     if (!req.file) {
 
         next(new Error('Unable to parse file'));
@@ -49,7 +53,7 @@ routes.post('/upload', upload.single('file'), (req, res, next) => {
     .on('data', fields => fileRows.push(fields[0]))
     .on('end', () => {
 
-        deleteFile(req.file.path, noop);
+        //deleteFile(req.file.path, noop);
         res.send({
             data: fileRows
         });

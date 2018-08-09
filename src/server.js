@@ -25,7 +25,7 @@ app.use(raven.errorHandler());
 
 app.use((err, req, res, next) => {
 
-    res.status(500);
+    res.status(500).send('Internal Error');
     res.end();
     next();
 

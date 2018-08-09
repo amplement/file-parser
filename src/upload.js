@@ -2,12 +2,20 @@ import express from 'express';
 import fs from 'fs';
 import multer from 'multer';
 import csv from 'fast-csv';
+import path from 'path';
 
 const EMAIL_REGEX = /([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
 const noop = () => {};
 
 const storage = multer.diskStorage({
-    destination: (req, file, callback) => callback(null, '.'),
+    destination: (req, file, callback) => {
+
+        const __root = path.join(__dirname, '../');
+        const tmpPath = path.join(__root, './tmp/');
+
+        callback(null, tmpPath);
+
+    },
     filename: (req, file, callback) => {
 
         callback(null, `${file.originalname}-${Date.now()}`);

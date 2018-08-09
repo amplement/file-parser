@@ -8,7 +8,7 @@ module.exports = {
         cwd: __root,
         script: './src/server.js',
         interpreter: `${__root}/node_modules/.bin/babel-node`,
-        ignore_watch: ['.git/*', 'node_modules/*'],
+        ignore_watch: ['.git/*', 'node_modules/*', './tmp/*'],
         node_args: [
             '--max-old-space-size=1024'
         ],

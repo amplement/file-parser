@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "npm run development",
-    "development": "pm2 startOrReload ./pm2/ecosystem.config.config.js",
+    "development": "pm2 startOrReload ./pm2/ecosystem.config.js",
     "production": "pm2 startOrReload ./pm2/ecosystem.config.js --env production"
   },
   "repository": {

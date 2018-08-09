@@ -3,6 +3,7 @@ import fs from 'fs';
 import multer from 'multer';
 import csv from 'fast-csv';
 import path from 'path';
+import uuid from 'uuid/v4';
 
 const EMAIL_REGEX = /([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
 const noop = () => {};
@@ -18,7 +19,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, callback) => {
 
-        callback(null, `${file.originalname}-${Date.now()}`);
+        callback(null, uuid());
 
     }
 });

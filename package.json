@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "npm run development",
+    "start": "babel-node src/server.js --presets es2015,stage-2",
     "development": "pm2 startOrReload ./pm2/ecosystem.config.js",
     "production": "pm2 startOrReload ./pm2/ecosystem.config.js --env production"
   },

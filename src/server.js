@@ -31,12 +31,9 @@ app.use((err, req, res, next) => {
 
 });
 
-app.listen(process.env.PORT, () => {
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
 
-    if (process.env.NODE_ENV === 'development') {
-
-        console.log('listening to', process.env.PORT);
-
-    }
+    console.log('listening to', port);
 
 });

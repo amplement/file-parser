@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "node ./dist/server.js",
-    "install": "babel ./src -d ./dist -s --copy-files",
+    "install": "npm run build",
+    "build": "babel ./src -d ./dist -s --copy-files",
     "deploy": "gcloud app deploy",
     "development": "pm2 startOrReload ./pm2/ecosystem.config.js",
     "production": "pm2 startOrReload ./pm2/ecosystem.config.js --env production"

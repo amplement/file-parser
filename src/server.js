@@ -13,7 +13,6 @@ raven
 
 app.use(cors());
 app.use(raven.requestHandler());
-
 app.use('/', routes);
 
 raven.setContext({
@@ -26,6 +25,7 @@ app.use(raven.errorHandler());
 app.use((err, req, res, next) => {
 
     res.status(500);
+    console.error(err);
     res.end();
     next();
 

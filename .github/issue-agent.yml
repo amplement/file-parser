@@ -1,0 +1,25 @@
+version: 1
+github:
+  remote: origin
+  base_branch: dev
+  expected_login: agent-amplement
+  author_name: agent
+  author_email: cedricbale+agent@amplement.com
+issues:
+  label: "agent:ready"
+  branch_prefix: "fix/"
+  max_concurrent_tasks: 1
+pull_requests:
+  merge_policy: human_only
+reviews:
+  resolve_threads: false
+validation:
+  setup_commands:
+    - npm ci
+  commands:
+    - git diff --check
+  timeout_seconds: 600
+agent:
+  timeout_seconds: 1800
+polling:
+  interval_seconds: 120

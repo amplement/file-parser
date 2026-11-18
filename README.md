@@ -1,5 +1,7 @@
 # file-parser
 
+Run the upload regression tests with `npm test`.
+
 From Google cloud plateform
 ```
 npm i

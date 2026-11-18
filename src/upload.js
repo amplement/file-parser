@@ -1,7 +1,6 @@
 import express from 'express';
 import Multer from 'multer';
 import csv from 'fast-csv';
-import stream from 'stream';
 
 const EMAIL_REGEX = /([a-zA-Z0-9._+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi;
 
@@ -10,7 +9,7 @@ const parseEmails = payload => (
     && payload.match(EMAIL_REGEX));
 
 const multer = Multer({
-    storage: Multer.MemoryStorage,
+    storage: Multer.memoryStorage(),
     limits: {
         fileSize: 5 * 1024 * 1024 // no larger than 5mb
     }
@@ -20,7 +19,6 @@ const routes = express.Router();
 
 routes.post('/upload', multer.single('file'), (req, res, next) => {
 
-
     if (!req.file) {
 
         next(new Error('missing "file" field'));
@@ -28,10 +26,17 @@ routes.post('/upload', multer.single('file'), (req, res, next) => {
 
     }
 
+    const { buffer } = req.file;
+    if (!Buffer.isBuffer(buffer)) {
+        next(new TypeError('invalid uploaded file buffer'));
+        return;
+    }
+
     const fileRows = [];
     const csvStream = csv()
     .validate(fields => parseEmails(fields[0]))
     .on('data', fields => fileRows.push(fields[0]))
+    .on('error', next)
     .on('end', () => {
 
         res.send({
@@ -40,9 +45,7 @@ routes.post('/upload', multer.single('file'), (req, res, next) => {
 
     });
 
-    const bufferStream = new stream.PassThrough();
-    bufferStream.end(req.file.buffer);
-    bufferStream.pipe(csvStream);
+    csvStream.end(buffer);
 
 });
 

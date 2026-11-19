@@ -21,7 +21,7 @@ routes.post('/upload', multer.single('file'), (req, res, next) => {
 
     if (!req.file) {
 
-        next(new Error('missing "file" field'));
+        res.status(400).send('missing "file" field');
         return;
 
     }
